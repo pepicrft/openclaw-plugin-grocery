@@ -1,0 +1,29 @@
+{
+  "name": "clawd-plugin-grocery",
+  "version": "1.0.0",
+  "description": "Clawdbot plugin for managing grocery shopping lists with dstask",
+  "main": "dist/index.js",
+  "type": "module",
+  "scripts": {
+    "build": "tsc",
+    "test": "echo \"No tests yet\" && exit 0"
+  },
+  "keywords": [
+    "clawdbot",
+    "plugin",
+    "grocery",
+    "shopping",
+    "dstask"
+  ],
+  "author": "Pedro Piñera <pedropinera@hey.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "typescript": "^5.0.0"
+  },
+  "clawdbot": {
+    "extensions": [
+      "dist/index.js"
+    ]
+  }
+}
