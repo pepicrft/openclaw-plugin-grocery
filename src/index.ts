@@ -1,4 +1,5 @@
 import { execSync } from "child_process";
+import { Type, Static } from "@sinclair/typebox";
 
 const GROCERY_TAG = "+grocery";
 
@@ -45,6 +46,7 @@ function execDstask(args: string[]): string {
       encoding: "utf-8",
       stdio: ["pipe", "pipe", "pipe"],
       shell: "/bin/bash",
+      env: { ...process.env, PATH: `${process.env.HOME}/go/bin:${process.env.PATH}` },
     }).trim();
   } catch (error: any) {
     throw new Error(`dstask command failed: ${error.message}`);
@@ -52,8 +54,6 @@ function execDstask(args: string[]): string {
 }
 
 function parseDstaskJson(output: string): DstaskItem[] {
-  // dstask outputs JSON by default, but it's multiline
-  // We need to collect all lines from '[' to ']'
   const lines = output.split('\n');
   const jsonLines: string[] = [];
   let started = false;
@@ -120,6 +120,21 @@ function clearBoughtItems(): string {
   return `Cleared ${completed.length} bought item(s)`;
 }
 
+// TypeBox schema for the tool parameters
+const GroceryParams = Type.Object({
+  action: Type.Union([
+    Type.Literal("list"),
+    Type.Literal("add"),
+    Type.Literal("done"),
+    Type.Literal("remove"),
+    Type.Literal("clear"),
+  ], { description: "Action to perform: list (show pending), add (new item), done (mark bought), remove (delete item), clear (remove all bought)" }),
+  item: Type.Optional(Type.String({ description: "Item description (for 'add' action)" })),
+  id: Type.Optional(Type.String({ description: "Item ID (for 'done' or 'remove' actions)" })),
+});
+
+type GroceryParamsType = Static<typeof GroceryParams>;
+
 export default function (api: any) {
   // Register CLI commands
   api.registerCli(
@@ -174,30 +189,14 @@ export default function (api: any) {
     { commands: ["grocery"] }
   );
 
-  // Register tool for Claude to use
+  // Register tool for Claude to use (updated API format)
   api.registerTool({
     name: "grocery_list",
     description: "Manage grocery shopping list using dstask. Add items, list pending items, mark as bought, or clear completed items.",
-    input_schema: {
-      type: "object",
-      properties: {
-        action: {
-          type: "string",
-          enum: ["list", "add", "done", "remove", "clear"],
-          description: "Action to perform: list (show pending), add (new item), done (mark bought), remove (delete item), clear (remove all bought)",
-        },
-        item: {
-          type: "string",
-          description: "Item description (for 'add' action)",
-        },
-        id: {
-          type: "string",
-          description: "Item ID (for 'done' or 'remove' actions)",
-        },
-      },
-      required: ["action"],
-    },
-    handler: async ({ action, item, id }: any, { respond }: any) => {
+    parameters: GroceryParams,
+    async execute(_id: string, params: GroceryParamsType) {
+      const { action, item, id } = params;
+      
       try {
         let result: string;
 
@@ -206,8 +205,8 @@ export default function (api: any) {
             const items = listGroceries();
             result =
               items.length === 0
-                ? "Grocery list is empty"
-                : `Grocery list:\n${items.map((i) => `${i.id}. ${i.summary}`).join("\n")}`;
+                ? "🛒 Grocery list is empty"
+                : `🛒 Grocery list:\n${items.map((i) => `  ${i.id}. ${i.summary}`).join("\n")}`;
             break;
 
           case "add":
@@ -233,9 +232,9 @@ export default function (api: any) {
             throw new Error(`Unknown action: ${action}`);
         }
 
-        respond(true, { ok: true, result });
+        return { content: [{ type: "text", text: result }] };
       } catch (error: any) {
-        respond(false, { ok: false, error: error.message });
+        return { content: [{ type: "text", text: `Error: ${error.message}` }], isError: true };
       }
     },
   });

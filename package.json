@@ -29,5 +29,8 @@
     "extensions": [
       "dist/index.js"
     ]
+  },
+  "dependencies": {
+    "@sinclair/typebox": "^0.34.47"
   }
 }
