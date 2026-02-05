@@ -1,18 +1,18 @@
-# 🛒 Clawdbot Grocery Plugin
+# OpenClaw Grocery Plugin
 
-[![CI](https://github.com/pepicrft/clawd-plugin-grocery/actions/workflows/ci.yml/badge.svg)](https://github.com/pepicrft/clawd-plugin-grocery/actions/workflows/ci.yml)
+[![CI](https://github.com/pepicrft/openclaw-plugin-grocery/actions/workflows/ci.yml/badge.svg)](https://github.com/pepicrft/openclaw-plugin-grocery/actions/workflows/ci.yml)
 
-A Clawdbot plugin for managing grocery shopping lists using dstask.
+An OpenClaw plugin for managing grocery shopping lists using dstask.
 
-## ✨ Features
+## Features
 
-- ➕ **Add items** to your shopping list
-- 📋 **List pending items** to buy
-- ✅ **Mark items as bought** when purchased
-- 🗑️ **Remove items** from the list
-- 🧹 **Clear all bought items** to keep your list clean
+- **Add items** to your shopping list
+- **List pending items** to buy
+- **Mark items as bought** when purchased
+- **Remove items** from the list
+- **Clear all bought items** to keep your list clean
 
-## 📦 Installation
+## Installation
 
 ### Prerequisites
 
@@ -31,91 +31,91 @@ go install github.com/naggie/dstask/cmd/dstask@latest
 ### Install the Plugin
 
 ```bash
-clawdbot plugins install clawd-plugin-grocery
+openclaw plugins install openclaw-plugin-grocery
 ```
 
 Or install from GitHub:
 
 ```bash
-clawdbot plugins install github:pepicrft/clawd-plugin-grocery
+openclaw plugins install github:pepicrft/openclaw-plugin-grocery
 ```
 
-## 🚀 Usage
+## Usage
 
-### 💻 CLI Commands
+### CLI Commands
 
 ```bash
-# 📋 List pending grocery items
-clawdbot grocery list
+# List pending grocery items
+openclaw grocery list
 
-# ➕ Add items to the list
-clawdbot grocery add milk eggs bread
+# Add items to the list
+openclaw grocery add milk eggs bread
 
-# ✅ Mark item as bought
-clawdbot grocery done 42
+# Mark item as bought
+openclaw grocery done 42
 
-# 🗑️ Remove item from list
-clawdbot grocery remove 42
+# Remove item from list
+openclaw grocery remove 42
 
-# 🧹 Clear all bought items
-clawdbot grocery clear
+# Clear all bought items
+openclaw grocery clear
 ```
 
-### 🤖 Tool (for Claude)
+### Tool (for Claude)
 
 Claude can manage your grocery list using the `grocery_list` tool:
 
 ```
-Hey, add milk and eggs to my grocery list 🥛🥚
+Hey, add milk and eggs to my grocery list
 ```
 
 ```
-What's on my grocery list? 🛒
+What's on my grocery list?
 ```
 
 ```
-Mark item 42 as bought ✅
+Mark item 42 as bought
 ```
 
-### 🌐 Gateway RPC
+### Gateway RPC
 
 ```bash
-# 📋 List items
+# List items
 curl -X POST http://localhost:3000/api/gateway/rpc \
   -H "Content-Type: application/json" \
   -d '{"method": "grocery.list"}'
 
-# ➕ Add item
+# Add item
 curl -X POST http://localhost:3000/api/gateway/rpc \
   -H "Content-Type: application/json" \
   -d '{"method": "grocery.add", "params": {"item": "milk"}}'
 
-# ✅ Mark as bought
+# Mark as bought
 curl -X POST http://localhost:3000/api/gateway/rpc \
   -H "Content-Type: application/json" \
   -d '{"method": "grocery.done", "params": {"id": "42"}}'
 ```
 
-## 📋 Requirements
+## Requirements
 
 - [dstask](https://github.com/naggie/dstask) must be installed and available in your PATH
-- 💡 **Tip:** Use `mise use -g go:github.com/naggie/dstask/cmd/dstask@latest` for hassle-free installation!
+- **Tip:** Use `mise use -g go:github.com/naggie/dstask/cmd/dstask@latest` for hassle-free installation!
 
-## 🔧 How It Works
+## How It Works
 
 This plugin uses dstask with the `+grocery` tag to manage your shopping list. Items are stored as dstask tasks, making them:
 
-- 💾 **Persistent** across sessions
-- 🔍 **Searchable** with dstask's powerful query features
-- 🔄 **Integrated** with your existing task management workflow
-- 🗂️ **Git-backed** for automatic version control
+- **Persistent** across sessions
+- **Searchable** with dstask's powerful query features
+- **Integrated** with your existing task management workflow
+- **Git-backed** for automatic version control
 
-## 🛠️ Development
+## Development
 
 ```bash
 # Clone the repo
-git clone https://github.com/pepicrft/clawd-plugin-grocery.git
-cd clawd-plugin-grocery
+git clone https://github.com/pepicrft/openclaw-plugin-grocery.git
+cd openclaw-plugin-grocery
 
 # Install dependencies
 npm install
@@ -133,23 +133,23 @@ npm run test:watch
 npm run test:ui
 ```
 
-### 🧪 Testing
+### Testing
 
 This plugin uses [Vitest](https://vitest.dev/) for testing. The test suite includes:
 
-- ✅ Plugin registration tests
-- ✅ Tool handler validation tests
-- ✅ Input schema validation tests
-- ✅ CI pipeline that runs on every commit
+- Plugin registration tests
+- Tool handler validation tests
+- Input schema validation tests
+- CI pipeline that runs on every commit
 
 CI runs tests on Node.js 20.x and 22.x to ensure compatibility.
 
-## 📄 License
+## License
 
-MIT © Pedro Piñera
+MIT (c) Pedro Pinera
 
-## 🔗 Links
+## Links
 
-- 🏠 [Repository](https://github.com/pepicrft/clawd-plugin-grocery)
-- 📚 [Clawdbot Plugin Docs](https://docs.clawd.bot/plugin)
-- 🛠️ [dstask](https://github.com/naggie/dstask)
+- [Repository](https://github.com/pepicrft/openclaw-plugin-grocery)
+- [OpenClaw Plugin Docs](https://docs.openclaw.ai/plugin)
+- [dstask](https://github.com/naggie/dstask)

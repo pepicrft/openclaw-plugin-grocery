@@ -1,0 +1,9 @@
+{
+  "id": "openclaw-plugin-grocery",
+  "name": "OpenClaw Grocery",
+  "description": "OpenClaw plugin for managing grocery shopping lists with dstask",
+  "configSchema": {},
+  "uiHints": {},
+  "version": "1.0.0",
+  "repository": "github:pepicrft/openclaw-plugin-grocery"
+}
