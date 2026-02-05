@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "OpenClaw plugin for managing grocery shopping lists with dstask",
   "main": "dist/index.js",
+  "files": [
+    "dist",
+    "openclaw.plugin.json"
+  ],
   "type": "module",
   "scripts": {
     "build": "tsc",
