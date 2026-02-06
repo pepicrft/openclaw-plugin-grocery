@@ -178,7 +178,7 @@ export default function (api: any) {
   api.registerTool({
     name: "grocery_list",
     description: "Manage grocery shopping list using dstask. Add items, list pending items, mark as bought, or clear completed items.",
-    input_schema: {
+    parameters: {
       type: "object",
       properties: {
         action: {
